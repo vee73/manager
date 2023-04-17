@@ -103,19 +103,25 @@ resource "tfe_oauth_client" "gh" {
   service_provider = "github"
 }
 
-resource "tfe_workspace" "managed_ws" {
-  description = "Create all workspaces specified in the input workspaces map"
-  for_each = var.vars_mapped_by_workspace_name
+#resource "tfe_workspace" "managed_ws" {
+#  description = "Create all workspaces specified in the input workspaces map"
+#  for_each = var.vars_mapped_by_workspace_name
 
-  name = each.key
-  organization = var.tf_organization
-  auto_apply = true
-  force_delete = true
-  vcs_repo {
-    identifier = var.vcs_repo_identifier
-    oauth_token_id = tfe_oauth_client.gh.oauth_token_id
-  }
+#  name = each.key
+#  organization = var.tf_organization
+#  auto_apply = true
+#  force_delete = true
+#  vcs_repo {
+#    identifier = var.vcs_repo_identifier
+#    oauth_token_id = tfe_oauth_client.gh.oauth_token_id
+#  }
+#}
+
+resource "tfe_organization" "test-organization" {
+  name  = "my-org-name"
+  email = "admin@company.com"
 }
+
 
 resource "tfe_variable" "managed_var" {
   # The for_each expression expects a map or a set of strings,
