@@ -122,6 +122,18 @@ resource "tfe_organization" "test-organization" {
   email = "admin@company.com"
 }
 
+resource "tfe_agent_pool" "test-agent-pool" {
+  name         = "my-agent-pool-name"
+  organization = tfe_organization.test-organization.name
+}
+
+resource "tfe_workspace" "test" {
+  name           = "my-workspace-name"
+  organization   = tfe_organization.test-organization.name
+  agent_pool_id  = tfe_agent_pool.test-agent-pool.id
+  execution_mode = "agent"
+}
+
 
 resource "tfe_variable" "managed_var" {
   # The for_each expression expects a map or a set of strings,
